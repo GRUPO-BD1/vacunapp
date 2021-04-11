@@ -3,7 +3,7 @@
 @inject DBServices objDBServices
 @inject NavigationManager NavigationManager
 
-<h3>AgregarPersona</h3>
+<h3>Agregar Persona</h3>
 
 <hr />
 <form>
@@ -18,7 +18,7 @@
                 <input for="Apellidos" class="form-control" @bind="@p.apellidos" />
             </div>
             <div class="form-group">
-                <label asp-for="Fase" class="control-label">-- Selecciona Fase --</label>
+                <label asp-for="Fase" class="control-label">Fase</label>
                 <select @bind="@p.idFase" class="form-control">            
                     <option value="6">Fase I</option>
                     <option value="7">Fase II</option>
@@ -26,22 +26,28 @@
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="Fase" class="control-label">-- Selecciona tipo de identificacion --</label>
+                <label asp-for="Fase" class="control-label">Tipo de identificación</label>
                 <select @bind="@p.idTipoIdentificacion" class="form-control">
                     <option value="1">Cedula</option>
+                    <option value="2">Pasaporte</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="Identificacion" class="control-label">Identificacion</label>
-                <input for="Identificacion" class="form-control" @bind="@p.identificacion" />
+                <label for="Identificacion" class="control-label">Identificación</label>
+                <input for="Identificacion" type="number" min="0" step="1" maxlength="15" class="form-control" @bind="@p.identificacion" />
             </div>
             <div class="form-group">
-                <label for="Profesion" class="control-label">Profesion</label>
-                <input for="Profesion" class="form-control" @bind="@p.idProfesion" />
+                <label for="Profesion" class="control-label">Profesión</label>
+                <select @bind="@p.idProfesion" class="form-control">
+                    <option value="4">Ninguna</option>
+                    <option value="1">Docente</option>
+                    <option value="2">Personal Salud</option>
+                    <option value="3">Personal Hogar Adultos Mayores</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="FechaNacimiento" class="control-label">Fecha de nacimiento</label>
-                <input for="FechaNacimiento" class="form-control" @bind="@p.FechaNacimiento" />
+                <input for="FechaNacimiento" type="date" class="form-control" @bind="@p.FechaNacimiento" />
             </div>
 
         </div>
@@ -49,8 +55,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreatePersona" value="Save" />
-                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+                <input type="button" class="btn btn-primary" @onclick="@CreatePersona" value="Agregar" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancelar" />
             </div>
         </div>
     </div>
