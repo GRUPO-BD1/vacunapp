@@ -1,7 +1,81 @@
 ﻿@page "/"
+@using VacunateRD__BD1_Final_.Data
+@inject DBServices objDBServices
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div class="form-group">
+    <label for="Name" class="control-label">Identificacion</label>
+    <input for="Name" class="form-control" @bind="@identificacion1" />
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<input type="button" class="btn btn-primary" @onclick="@BuscarPorId" value="Buscar" />
+
+
+
+<h1>Busqueda de persona</h1>
+@if (PersonaHistorial == null)
+{
+    <p><em>Esperando busqueda...</em></p>
+}
+else 
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Fase</th>
+                <th>Centro</th>
+                <th>Dosis Correspondiente</th>
+                <th>Fecha</th>
+                <th>Lote</th>
+                <th>Vacuna</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var temp in PersonaHistorial)
+            {
+            <tr>
+                <td>@temp.Nombres</td>
+                <td>@temp.Apelllidos</td>
+                <td>@temp.CodigoFase</td>
+                <td>@temp.Centro</td>
+                <td>@temp.DosisCorrespondiente</td>
+                <td>@temp.Fechaproporcionada</td>
+                <td>@temp.IdLote</td>
+                <td>@temp.NombreVacuna</td>
+                <td>
+                    <a class="nav-link" href="EditCustomer/">
+                        <span class="oi oi-pencil" aria-hidden="true"></span> Edit
+                    </a>
+                    <a class="nav-link" href="DeleteCustomer/@temp.Identificacion">
+                        <span class="oi oi-trash" aria-hidden="true"></span> Delete
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+        List<PersonaVacunacion> PersonaHistorial;
+    public string identificacion1 { get; set; }
+
+    protected void BuscarPorId()
+    {
+        if (identificacion1 != null)
+        {
+            DBServices db = new DBServices();
+            PersonaHistorial = db.GetPersonaDataByIdentificacion(identificacion1).ToList();
+        }
+
+    }
+    /*
+protected override async Task OnInitializedAsync()
+{
+    DBServices db = new DBServices();
+    PersonaHistorial = await Task.Run(() => db.GetPersonaDataByIdentificacion(identificacion1));
+}*/
+}
