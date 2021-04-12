@@ -177,18 +177,18 @@ namespace VacunateRD__BD1_Final_.Data
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    v1.Nombres = rdr["NOMBRES"].ToString();
-                    v1.Apellidos = rdr["APELLIDOS"].ToString();
-                    v1.IdVacunador = Convert.ToInt32(rdr["IDVACUNADOR"]);
-
-                    vacunadores.Add(v1);
+                     
+                    vacunadores.Add(new Vacunador { Nombres = rdr["NOMBRES"].ToString(),
+                        Apellidos = rdr["APELLIDOS"].ToString(),
+                        IdVacunador = Convert.ToInt32(rdr["IDVACUNADOR"])
+                    });
                 }
                 con.Close();
             }
             return vacunadores;
         }
 
-        public List<Lote> getLotesByCentro(int idCentro)
+        public IEnumerable<Lote> getLotesByCentro(int idCentro)
         {
             List<Lote> lotes = new List<Lote>();
             Lote L1 = new Lote();
@@ -201,18 +201,17 @@ namespace VacunateRD__BD1_Final_.Data
 
                 cmd.Parameters.AddWithValue("@idCentro", idCentro);
                 con.Open();
+                Lote L2 = new Lote{ Disponibles = 1, idLote= 1, Nombre = "", };
+
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    L1.Nombre = rdr["NOMBRE"].ToString();
-                    L1.idLote = Convert.ToInt32(rdr["IDLOTE"]);
-                    L1.Disponibles = Convert.ToInt32(rdr["DISPONIBLES"]);
-
-                    lotes.Add(L1);
+                    lotes.Add(new Lote { Disponibles = Convert.ToInt32(rdr["DISPONIBLES"]), 
+                        idLote = Convert.ToInt32(rdr["IDLOTE"]), 
+                        Nombre = rdr["NOMBRE"].ToString(), });
                 }
-                con.Close();
+                return lotes;
             }
-            return lotes;
         }
 
         public List<MesaVacunacion> getMesaVacunacionByCentroID(int idCentro)
@@ -228,8 +227,8 @@ namespace VacunateRD__BD1_Final_.Data
                 SqlDataReader rdr = CMD.ExecuteReader();
                 while (rdr.Read())
                 {
-                    m1.idMesaVacunacion = Convert.ToInt32(rdr["IDMESAVACUNACION"]);
-                    Mesas.Add(m1);
+              
+                    Mesas.Add(new MesaVacunacion { idMesaVacunacion = Convert.ToInt32(rdr["IDMESAVACUNACION"])} );
                 }
                 con.Close();
             }

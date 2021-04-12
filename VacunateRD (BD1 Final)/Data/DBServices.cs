@@ -27,7 +27,9 @@ namespace VacunateRD__BD1_Final_.Data
         }
         public List<Lote> getLotesByCentroId(int id)
         {
-            return dbAccess.getLotesByCentro(id);
+            List<Lote> Lotes = new List<Lote>();
+            Lotes = dbAccess.getLotesByCentro(id).ToList();
+            return Lotes;
         }
 
         public List<MesaVacunacion> getMesasByCentroId(int id)

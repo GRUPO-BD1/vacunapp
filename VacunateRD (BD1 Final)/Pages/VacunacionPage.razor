@@ -6,29 +6,36 @@
 <h3>Vacunacion</h3>
 
 <div class="form-group">
-    <label asp-for="Fase" class="control-label">Vacunador</label>
-    <select class="form-control" @bind="@objVacunacion.Dosis">
-        @foreach (var v in Vacunadores)
-        {
-            <option value="@v.IdVacunador">@v.Nombres @v.Apellidos</option>
-        }
-    </select>
 
-    <label asp-for="Fase" class="control-label">Lote</label>
+
+    <label class="control-label">Lote</label>
     <select class="form-control" @bind="@objVacunacion.idLote">
+        <option value="">-- Lote --</option>
         @foreach (var l in Lotes)
         {
             <option value="@l.idLote">Codigo: @l.idLote | @l.Nombre | @l.Disponibles</option>
         }
     </select>
+    <h3>@objVacunacion.idLote</h3>
 
     <label asp-for="Mesa-Vacunacion" class="control-label">Mesa de vacunacion: </label>
     <select class="form-control" @bind="@objVacunacion.idMesaVacunacion">
+        <option value="">-- Mesa --</option>
         @foreach (var M in Mesas)
         {
             <option value="@M.idMesaVacunacion">Codigo: @M.idMesaVacunacion</option>
         }
     </select>
+
+    <label asp-for="Vacunador" class="control-label">Mesa de vacunacion: </label>
+    <select class="form-control" @bind="@objVacunacion.idVacuandor">
+    <option value="">-- Vacunador --</option>
+        @foreach (var item in Vacunadores)
+        {
+            <option value="@item.IdVacunador">@item.Nombres @item.Apellidos</option>
+        }
+    </select>
+
     <div class="form-group">
         <label for="Dosis" class="control-label">DosisCorrespondiente</label>
         <select @bind="@objVacunacion.Dosis" class="form-control">
@@ -56,6 +63,8 @@
     List<Lote> Lotes = new List<Lote>();
     List<MesaVacunacion> Mesas = new List<MesaVacunacion>();
     Vacunacion objVacunacion = new Vacunacion();
+    DBServices db1 = new DBServices();
+
 
     [CascadingParameter]
     public int idPersona { get; set; }
