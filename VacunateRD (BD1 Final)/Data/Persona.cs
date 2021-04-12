@@ -16,6 +16,14 @@ namespace VacunateRD__BD1_Final_.Data
         public string apellidos { get; set; }
         public string identificacion { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        
+        public int Edad
+        {
+            get
+            {
+                TimeSpan span = DateTime.Now - FechaNacimiento;
+                int years = (int)(span.Days / 365.25);
+                return years;
+            }
+        }
     }
 }

@@ -23,7 +23,15 @@ namespace VacunateRD__BD1_Final_.Data
         public int  IdLote { get; set; }
         public int DosisCorrespondiente { get; set; }
         public string NombreVacuna { get; set; }
-        
-        
+        public int Edad
+        {
+            get
+            {
+                TimeSpan span = DateTime.Now - Fechanacimiento;
+                int years = (int)(span.Days / 365.25);
+                return years;
+            }
+        }
+
     }
 }
