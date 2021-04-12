@@ -51,5 +51,10 @@ namespace VacunateRD__BD1_Final_.Data
         {
             return dbAccess.getPersonaIdByIdentificacion(identificacion);
         }
+
+        public List<CentroVacunacion> getAllCentros()
+        {
+            return dbAccess.getAllCentroVacunacion();
+        }
     }
 }

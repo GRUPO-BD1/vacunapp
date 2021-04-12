@@ -22,7 +22,6 @@ namespace VacunateRD__BD1_Final_.Data
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdTipoIdentificacion", p.idTipoIdentificacion);
                 cmd.Parameters.AddWithValue("@IdProfesion", p.idProfesion);
-                cmd.Parameters.AddWithValue("@IdFase", p.idFase);
                 cmd.Parameters.AddWithValue("@Nombres", p.nombres);
                 cmd.Parameters.AddWithValue("@Apellidos", p.apellidos);
                 cmd.Parameters.AddWithValue("@Identificacion", p.identificacion);
@@ -49,19 +48,20 @@ namespace VacunateRD__BD1_Final_.Data
 
                 while (rdr.Read())
                 {
-                    p1.Nombres = rdr["NOMBRES"].ToString();
-                    p1.Apelllidos = rdr["APELLIDOS"].ToString();
-                    p1.Identificacion = rdr["IDENTIFICACION"].ToString();
-                    p1.Fechanacimiento = Convert.ToDateTime(rdr["FECHANACIMIENTO"]);
-                    p1.Profesion = rdr["PROFESION"].ToString();
-                    p1.CodigoFase = rdr["CODIGOFASE"].ToString();
-                    p1.NumMesa = rdr["NUMMESA"].ToString();
-                    p1.Centro = rdr["CENTRO"].ToString();
-                    p1.Fechaproporcionada = Convert.ToDateTime(rdr["FECHAPROPORCIONADA"]);
-                    p1.IdLote = Convert.ToInt32(rdr["IDLOTE"]);
-                    p1.DosisCorrespondiente = Convert.ToInt32(rdr["DOSISCORRESPONDIENTE"]);
-                    p1.NombreVacuna = rdr["NOMBREVACUNA"].ToString();
-                    personas.Add(p1);
+                    personas.Add(new PersonaVacunacion { 
+                    Nombres = rdr["NOMBRES"].ToString(),
+                    Apelllidos = rdr["APELLIDOS"].ToString(),
+                    Identificacion = rdr["IDENTIFICACION"].ToString(),
+                    Fechanacimiento = Convert.ToDateTime(rdr["FECHANACIMIENTO"]),
+                    Profesion = rdr["PROFESION"].ToString(),
+                    NumMesa  = rdr["NUMMESA"].ToString(),
+                    CodigoFase = rdr["CODIGOFASE"].ToString(),
+                    Centro = rdr["CENTRO"].ToString(),
+                    Fechaproporcionada = Convert.ToDateTime(rdr["FECHAPROPORCIONADA"]),
+                    IdLote = Convert.ToInt32(rdr["IDLOTE"]),
+                    DosisCorrespondiente = Convert.ToInt32(rdr["DOSISCORRESPONDIENTE"]),
+                    NombreVacuna = rdr["NOMBREVACUNA"].ToString(),
+                    });     
                 }
             }
             return personas;
@@ -269,6 +269,27 @@ namespace VacunateRD__BD1_Final_.Data
                 con.Close();
             }
             return idPersona;
+        }
+        public List<CentroVacunacion> getAllCentroVacunacion()
+        {
+            string query = "Select IDCENTROVACUNACION, NOMBRE from TBL_CENTROVACUNACION WHERE IDESTADO = 1";
+
+            List<CentroVacunacion> Centros = new List<CentroVacunacion>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+
+                    Centros.Add(new CentroVacunacion { idCentroVacunacion = Convert.ToInt32(rdr["IDCENTROVACUNACION"]), 
+                        Nombre = rdr["NOMBRE"].ToString()
+                    });
+                }
+                con.Close();
+            }
+            return Centros;
         }
     }
 }
