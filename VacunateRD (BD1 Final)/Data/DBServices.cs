@@ -20,5 +20,18 @@ namespace VacunateRD__BD1_Final_.Data
             return dbAccess.GetPersonaData(id);
             
         }
+        public List<Vacunador> GetVacunadoresById(int id)
+        {
+            return dbAccess.getVacunadoresByCentro(id);
+        }
+        public List<Lote> getLotesByCentroId(int id)
+        {
+            return dbAccess.getLotesByCentro(id);
+        }
+
+        public List<MesaVacunacion> getMesasByCentroId(int id)
+        {
+            return dbAccess.getMesaVacunacionByCentroID(id);
+        }
     }
 }

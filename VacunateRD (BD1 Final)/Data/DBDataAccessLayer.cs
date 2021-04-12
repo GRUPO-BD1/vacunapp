@@ -62,10 +62,83 @@ namespace VacunateRD__BD1_Final_.Data
                     p1.NombreVacuna = rdr["NOMBREVACUNA"].ToString();
                     personas.Add(p1);
                 }
+                con.Close();
             }
             return personas;
         }
+        public List<Vacunador> getVacunadoresByCentro(int idCentro)
+        {
+            List<Vacunador> vacunadores = new List<Vacunador>();
+            Vacunador v1 = new Vacunador();
 
+            using (SqlConnection con = new SqlConnection(s))
+            {
 
+                SqlCommand cmd = new SqlCommand("spSelectVacunadorByIdCentro", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@idCentro", idCentro);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    v1.Nombres = rdr["NOMBRES"].ToString();
+                    v1.Apellidos = rdr["APELLIDOS"].ToString();
+                    v1.IdVacunador = Convert.ToInt32(rdr["IDVACUNADOR"]);
+
+                    vacunadores.Add(v1);
+                }
+                con.Close();
+            }
+            return vacunadores;
+        }
+
+        public List<Lote> getLotesByCentro(int idCentro)
+        {
+            List<Lote> lotes = new List<Lote>();
+            Lote L1 = new Lote();
+
+            using (SqlConnection con = new SqlConnection(s))
+            {
+
+                SqlCommand cmd = new SqlCommand("GetLoteByIdCentro", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@idCentro", idCentro);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    L1.Nombre = rdr["NOMBRE"].ToString();
+                    L1.idLote = Convert.ToInt32(rdr["IDLOTE"]);
+                    L1.Disponibles = Convert.ToInt32(rdr["DISPONIBLES"]);
+
+                    lotes.Add(L1);
+                }
+                con.Close();
+            }
+            return lotes;
+        }
+
+        public List<MesaVacunacion> getMesaVacunacionByCentroID(int idCentro)
+        {
+            string query = "select IDMESAVACUNACION from TBL_MESAVACUNACION where IDCENTROVACUNACION = @idCentro";
+            List<MesaVacunacion> Mesas = new List<MesaVacunacion>();
+            MesaVacunacion m1 = new MesaVacunacion();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                CMD.Parameters.AddWithValue("@idCentro", idCentro);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+                    m1.idMesaVacunacion = Convert.ToInt32(rdr["IDMESAVACUNACION"]);
+                    Mesas.Add(m1);
+                }
+                con.Close();
+            }
+            return Mesas;
+        }
     }
 }
