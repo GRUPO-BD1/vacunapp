@@ -11,12 +11,10 @@ namespace VacunateRD__BD1_Final_.Data
     public class DBDataAccessLayer
     {
 
-        string s = "";
+        string s = ("Server=tcp:vacunacion.database.windows.net,1433;Database=vacunacion_db;User ID=vacunacionadmin@vacunacion.database.windows.net;Password=Porfavor1;Trusted_Connection=False;Encrypt=True;");
         //Nueva Persona
         public void AddPersona(Persona p)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-
             using (SqlConnection con = new SqlConnection(s))
             {
                 SqlCommand cmd = new SqlCommand("spInsertPersona", con);
