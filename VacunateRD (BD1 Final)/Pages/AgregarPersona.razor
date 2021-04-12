@@ -3,7 +3,7 @@
 @inject DBServices objDBServices
 @inject NavigationManager NavigationManager
 
-<h3>Agregar Persona</h3>
+<h1>Agregar Persona</h1>
 
 <hr />
 <form>
@@ -18,12 +18,6 @@
                 <input for="Apellidos" class="form-control" @bind="@p.apellidos" />
             </div>
             <div class="form-group">
-                <label asp-for="Fase" class="control-label">Fase</label>
-                <select @bind="@p.idFase" class="form-control">            
-                    <option value="6">Fase I</option>
-                    <option value="7">Fase II</option>
-                    <option value="8">Fase III</option>
-                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Fase" class="control-label">Tipo de identificación</label>
