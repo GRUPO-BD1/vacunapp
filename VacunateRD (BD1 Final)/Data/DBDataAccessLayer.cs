@@ -16,8 +16,6 @@ namespace VacunateRD__BD1_Final_.Data
         //Nueva Persona
         public void AddPersona(Persona p)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-
             using (SqlConnection con = new SqlConnection(s))
             {
                 SqlCommand cmd = new SqlCommand("spInsertPersona", con);
