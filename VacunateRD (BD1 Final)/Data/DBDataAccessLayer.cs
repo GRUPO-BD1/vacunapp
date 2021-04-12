@@ -11,7 +11,7 @@ namespace VacunateRD__BD1_Final_.Data
     public class DBDataAccessLayer
     {
 
-        string s = ("Server=tcp:vacunacion.database.windows.net,1433;Database=vacunacion_db;User ID=vacunacionadmin@vacunacion.database.windows.net;Password=Porfavor1;Trusted_Connection=False;Encrypt=True;");
+        string s = "";
         //Nueva Persona
         public void AddPersona(Persona p)
         {
@@ -65,5 +65,7 @@ namespace VacunateRD__BD1_Final_.Data
             }
             return personas;
         }
+
+
     }
 }
