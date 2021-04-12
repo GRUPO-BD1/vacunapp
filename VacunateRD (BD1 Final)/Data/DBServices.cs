@@ -39,5 +39,11 @@ namespace VacunateRD__BD1_Final_.Data
         {
             return dbAccess.GetStatsData();
         }
+        public string addVacunacion(Vacunacion v1)
+        {
+            //DBDataAccessLayer dbAccess = new DBDataAccessLayer();
+            dbAccess.AddVacunacion(v1);
+            return "Exito";
+        }
     }
 }
