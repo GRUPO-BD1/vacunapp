@@ -18,7 +18,7 @@
 {
     <p><em>Esperando busqueda...</em></p>
 }
-else 
+else
 {
     <table class="table">
         <thead>
@@ -36,31 +36,31 @@ else
         <tbody>
             @foreach (var temp in PersonaHistorial)
             {
-            <tr>
-                <td>@temp.Nombres</td>
-                <td>@temp.Apelllidos</td>
-                <td>@temp.CodigoFase</td>
-                <td>@temp.Centro</td>
-                <td>@temp.DosisCorrespondiente</td>
-                <td>@temp.Fechaproporcionada</td>
-                <td>@temp.IdLote</td>
-                <td>@temp.NombreVacuna</td>
-                <td>
-                    <a class="nav-link" href="EditCustomer/">
-                        <span class="oi oi-pencil" aria-hidden="true"></span> Edit
-                    </a>
-                    <a class="nav-link" href="DeleteCustomer/@temp.Identificacion">
-                        <span class="oi oi-trash" aria-hidden="true"></span> Delete
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@temp.Nombres</td>
+                    <td>@temp.Apelllidos</td>
+                    <td>@temp.CodigoFase</td>
+                    <td>@temp.Centro</td>
+                    <td>@temp.DosisCorrespondiente</td>
+                    <td>@temp.Fechaproporcionada</td>
+                    <td>@temp.IdLote</td>
+                    <td>@temp.NombreVacuna</td>
+                    <td>
+                        <a class="nav-link" href="EditCustomer/">
+                            <span class="oi oi-pencil" aria-hidden="true"></span> Edit
+                        </a>
+                        <a class="nav-link" href="DeleteCustomer/@temp.Identificacion">
+                            <span class="oi oi-trash" aria-hidden="true"></span> Delete
+                        </a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 }
 
 @code {
-        List<PersonaVacunacion> PersonaHistorial;
+    List<PersonaVacunacion> PersonaHistorial;
     public string identificacion1 { get; set; }
 
     protected void BuscarPorId()
