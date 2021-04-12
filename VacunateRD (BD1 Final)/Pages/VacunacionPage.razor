@@ -3,12 +3,12 @@
 @inject DBServices objDBServices
 @inject NavigationManager NavigationManager
 
-<h3>Vacunacion</h3>
+<h3><strong>Vacunación</strong></h3>
 
 
-<label class="control-label">Centro de Vacunacion</label>
+<label class="control-label">Centro de Vacunación</label>
 <select class="form-control" @bind="@idCentro">
-    <option value="">-- Centro Vacunacion --</option>
+    <option value="">-- Centro Vacunación --</option>
     @foreach (var l in centros)
     {
         <option value="@l.idCentroVacunacion">Codigo: @l.idCentroVacunacion | @l.Nombre</option>
@@ -28,7 +28,7 @@
         </select>
 
 
-        <label asp-for="Mesa-Vacunacion" class="control-label">Mesa de vacunacion: </label>
+        <label asp-for="Mesa-Vacunacion" class="control-label">Mesa de vacunación</label>
         <select class="form-control" @bind="@objVacunacion.idMesaVacunacion">
             <option value="">-- Mesa --</option>
             @foreach (var M in Mesas)
@@ -37,7 +37,7 @@
             }
         </select>
 
-        <label asp-for="Vacunador" class="control-label">Mesa de vacunacion: </label>
+        <label asp-for="Vacunador" class="control-label">Vacunador</label>
         <select class="form-control" @bind="@objVacunacion.idVacuandor">
             <option value="">-- Vacunador --</option>
             @foreach (var item in Vacunadores)
@@ -47,7 +47,7 @@
         </select>
 
         <div class="form-group">
-            <label for="Dosis" class="control-label">DosisCorrespondiente</label>
+            <label for="Dosis" class="control-label">Dosis correspondiente</label>
             <select @bind="@objVacunacion.Dosis" class="form-control">
                 <option value="1">Primera</option>
                 <option value="2">Segunda</option>
