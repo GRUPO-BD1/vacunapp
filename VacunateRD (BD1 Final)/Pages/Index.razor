@@ -4,7 +4,7 @@
 @inject NavigationManager NavigationManager
 
 
-<h1>Buscar personas vacunadas</h1>
+<h1>Buscar personas en el sistema</h1>
 
 <div class="form-group">
     <label for="Name" class="control-label">Identificación</label>
@@ -19,6 +19,7 @@
 }
 else
 {
+
     <table class="table">
         <thead>
             <tr>
@@ -38,32 +39,36 @@ else
         <tbody>
             @foreach (var temp in PersonaHistorial)
             {
-            <tr>
-                <td>@temp.Nombres</td>
-                <td>@temp.Apelllidos</td>
-                <td>@temp.Profesion</td>
-                <td>@temp.Edad</td>
-                <td>@temp.CodigoFase</td>
-                <td>@temp.Centro</td>
-                <td>@temp.NumMesa</td>
-                <td>@temp.DosisCorrespondiente</td>
-                <td>@temp.Fechaproporcionada</td>
-                <td>@temp.IdLote</td>
-                <td>@temp.NombreVacuna</td>
-                <td>
-                    <a class="nav-link" href="EditCustomer/">
-                        <span class="oi oi-pencil" aria-hidden="true"></span> Vacunar
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@temp.Nombres</td>
+                    <td>@temp.Apelllidos</td>
+                    <td>@temp.Profesion</td>
+                    <td>@temp.Edad</td>
+                    <td>@temp.CodigoFase</td>
+                    <td>@temp.Centro</td>
+                    <td>@temp.NumMesa</td>
+                    <td>@temp.DosisCorrespondiente</td>
+                    <td>@temp.Fechaproporcionada</td>
+                    <td>@temp.IdLote</td>
+                    <td>@temp.NombreVacuna</td>
+                    <td>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 }
+@if (idPersona1 != 0)
+{
+    <CascadingValue Value="@idPersona1"><VacunacionPage></VacunacionPage></CascadingValue>
+}
+
+
 
 @code {
     List<PersonaVacunacion> PersonaHistorial;
     public string identificacion1 { get; set; }
+    public int idPersona1 { get; set; } = 0;
 
     protected void BuscarPorId()
     {
@@ -71,8 +76,11 @@ else
         {
             DBServices db = new DBServices();
             PersonaHistorial = db.GetPersonaDataByIdentificacion(identificacion1).ToList();
+            idPersona1 = db.getIdPersonaByIdentificacion(identificacion1);
         }
     }
+
+
     /*
 protected override async Task OnInitializedAsync()
 {

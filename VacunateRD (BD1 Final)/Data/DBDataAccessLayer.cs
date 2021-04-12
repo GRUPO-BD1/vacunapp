@@ -247,11 +247,29 @@ namespace VacunateRD__BD1_Final_.Data
                 cmd.Parameters.AddWithValue("@idMesaVacunacion", V.idMesaVacunacion);
                 cmd.Parameters.AddWithValue("@Dosis", V.Dosis);
                 cmd.Parameters.AddWithValue("@idVacunador", V.idVacuandor);
-
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
+        }
+        public int getPersonaIdByIdentificacion(string identificacion)
+        {
+            string query = "select IDPERSONA FROM TBL_PERSONA WHERE IDENTIFICACION = @IDENTIFICACION";
+            int idPersona = 0;
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                CMD.Parameters.AddWithValue("@IDENTIFICACION", identificacion);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+                    idPersona = Convert.ToInt32(rdr["IDPERSONA"]);
+                    
+                }
+                con.Close();
+            }
+            return idPersona;
         }
     }
 }

@@ -45,5 +45,9 @@ namespace VacunateRD__BD1_Final_.Data
             dbAccess.AddVacunacion(v1);
             return "Exito";
         }
+        public int getIdPersonaByIdentificacion(string identificacion)
+        {
+            return dbAccess.getPersonaIdByIdentificacion(identificacion);
+        }
     }
 }
