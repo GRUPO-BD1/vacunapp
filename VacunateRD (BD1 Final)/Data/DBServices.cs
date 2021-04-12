@@ -20,5 +20,10 @@ namespace VacunateRD__BD1_Final_.Data
             return dbAccess.GetPersonaData(id);
             
         }
+
+        public DatosEstadisticos GetDatosEstadisticos()
+        {
+            return dbAccess.GetStatsData();
+        }
     }
 }

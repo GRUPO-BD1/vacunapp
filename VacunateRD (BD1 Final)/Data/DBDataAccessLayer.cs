@@ -4,7 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-
+using VacunateRD__BD1_Final_.Data.Data_models.VacunadosPorArea;
+using VacunateRD__BD1_Final_.Data.Data_models.VacunasDisponibles;
 
 namespace VacunateRD__BD1_Final_.Data
 {
@@ -65,7 +66,99 @@ namespace VacunateRD__BD1_Final_.Data
             }
             return personas;
         }
+        private List<VacunadosPorRegion> GetVacunadosPorRegion()
+        {
+            List<VacunadosPorRegion> porRegion = new List<VacunadosPorRegion>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spCantidadVacunacionesPorRegion", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine(rdr["CANTIDADVACUNACIONES"]);
+                    Console.WriteLine(rdr["REGION"]);
+                    porRegion.Add(new VacunadosPorRegion(
+                        rdr["REGION"].ToString(),
+                        Convert.ToInt32(rdr["CANTIDADVACUNACIONES"])));
+                }
+            }
+            return porRegion;
+        }
+        private List<VacunadosPorProvincia> GetVacunadosPorProvincia()
+        {
+            List<VacunadosPorProvincia> porProvincia = new List<VacunadosPorProvincia>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spCantidadVacunacionesPorProvincia", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    porProvincia.Add(new VacunadosPorProvincia(
+                        rdr["PROVINCIA"].ToString(),
+                        Convert.ToInt32(rdr["CANTIDADVACUNACIONES"])));
+                }
+            }
+            return porProvincia;
+        }
+        private List<VacunadosPorMunicipio> GetVacunadosPorMunicipio()
+        {
+            List<VacunadosPorMunicipio> porMunicipio = new List<VacunadosPorMunicipio>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spCantidadVacunacionesPorMunicipio", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    porMunicipio.Add(new VacunadosPorMunicipio(
+                        rdr["MUNICIPIO"].ToString(),
+                        Convert.ToInt32(rdr["CANTIDADVACUNACIONES"])));
+                }
+            }
+            return porMunicipio;
+        }
+        private List<VacunasDisponiblesPorRegion> GetVacunasDisponiblesPorRegion()
+        {
+            List<VacunasDisponiblesPorRegion> vacunasDisponiblesPorRegion = new List<VacunasDisponiblesPorRegion>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spVacunasDisponiblesRegion", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    vacunasDisponiblesPorRegion.Add(new VacunasDisponiblesPorRegion(
+                        rdr["REGION"].ToString(),
+                        Convert.ToInt32(rdr["DOSISDISPONIBLES"])));
+                }
+            }
+            return vacunasDisponiblesPorRegion;
+        }
 
-
+        private int GetVacunasDisponiblesCentral()
+        {
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spVacunasDisponiblesCentral", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+        public DatosEstadisticos GetStatsData()
+        {
+            return new DatosEstadisticos(
+                GetVacunadosPorRegion(),
+                GetVacunadosPorProvincia(),
+                GetVacunadosPorMunicipio(),
+                GetVacunasDisponiblesPorRegion(),
+                GetVacunasDisponiblesCentral());
+        }
     }
 }
