@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VacunateRD__BD1_Final_.Data;
+using VacunateRD__BD1_Final_.Data.Shared;
 
 namespace VacunateRD__BD1_Final_
 {
@@ -30,6 +31,7 @@ namespace VacunateRD__BD1_Final_
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<DBServices>();
+            services.AddScoped<ToShare>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
