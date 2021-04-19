@@ -270,26 +270,25 @@ namespace VacunateRD__BD1_Final_.Data
             }
             return idPersona;
         }
-        public List<CentroVacunacion> getAllCentroVacunacion()
-        {
-            string query = "Select IDCENTROVACUNACION, NOMBRE from TBL_CENTROVACUNACION WHERE IDESTADO = 1";
 
-            List<CentroVacunacion> Centros = new List<CentroVacunacion>();
+        public List<CentroVacunacion> GetAllCentroVacunacion()
+        {
+            List<CentroVacunacion> centrosVacunacion = new List<CentroVacunacion>();
             using (SqlConnection con = new SqlConnection(s))
             {
-                SqlCommand CMD = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand("spSelectAllCentroVacunacion", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
-                SqlDataReader rdr = CMD.ExecuteReader();
+                SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-
-                    Centros.Add(new CentroVacunacion { idCentroVacunacion = Convert.ToInt32(rdr["IDCENTROVACUNACION"]), 
-                        Nombre = rdr["NOMBRE"].ToString()
+                    centrosVacunacion.Add(new CentroVacunacion { 
+                        idCentroVacunacion = Convert.ToInt32(rdr["IDCENTROVACUNACION"]), 
+                        Nombre= rdr["NOMBRE"].ToString()
                     });
                 }
-                con.Close();
             }
-            return Centros;
+            return centrosVacunacion;
         }
     }
 }

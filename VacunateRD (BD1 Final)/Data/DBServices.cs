@@ -54,7 +54,7 @@ namespace VacunateRD__BD1_Final_.Data
 
         public List<CentroVacunacion> getAllCentros()
         {
-            return dbAccess.getAllCentroVacunacion();
+            return dbAccess.GetAllCentroVacunacion();
         }
     }
 }
