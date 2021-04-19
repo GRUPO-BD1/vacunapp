@@ -54,17 +54,16 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
 @code {
-    List<Vacunador> Vacunadores = new List<Vacunador>();
-    List<Lote> Lotes = new List<Lote>();
-    List<MesaVacunacion> Mesas = new List<MesaVacunacion>();
-    Vacunacion objVacunacion = new Vacunacion();
-    DBServices db1 = new DBServices();
-    List<CentroVacunacion> centros = new List<CentroVacunacion>();
+        List<Vacunador> Vacunadores = new List<Vacunador>();
+        List<Lote> Lotes = new List<Lote>();
+        List<MesaVacunacion> Mesas = new List<MesaVacunacion>();
+        Vacunacion objVacunacion = new Vacunacion();
+        DBServices db1 = new DBServices();
+        List<CentroVacunacion> centros = new List<CentroVacunacion>();
 
     public int idCentro { get; set; } = 0;
 
@@ -95,13 +94,11 @@
     protected void btnVacunar()
     {
         objDBServices.addVacunacion(objVacunacion);
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/SelecionarHospital");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/SelecionarHospital");
     }
-
-
 }
