@@ -22,7 +22,6 @@ namespace VacunateRD__BD1_Final_.Data
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdTipoIdentificacion", p.idTipoIdentificacion);
                 cmd.Parameters.AddWithValue("@IdProfesion", p.idProfesion);
-                cmd.Parameters.AddWithValue("@IdFase", p.idFase);
                 cmd.Parameters.AddWithValue("@Nombres", p.nombres);
                 cmd.Parameters.AddWithValue("@Apellidos", p.apellidos);
                 cmd.Parameters.AddWithValue("@Identificacion", p.identificacion);
@@ -49,19 +48,20 @@ namespace VacunateRD__BD1_Final_.Data
 
                 while (rdr.Read())
                 {
-                    p1.Nombres = rdr["NOMBRES"].ToString();
-                    p1.Apelllidos = rdr["APELLIDOS"].ToString();
-                    p1.Identificacion = rdr["IDENTIFICACION"].ToString();
-                    p1.Fechanacimiento = Convert.ToDateTime(rdr["FECHANACIMIENTO"]);
-                    p1.Profesion = rdr["PROFESION"].ToString();
-                    p1.CodigoFase = rdr["CODIGOFASE"].ToString();
-                    p1.NumMesa = rdr["NUMMESA"].ToString();
-                    p1.Centro = rdr["CENTRO"].ToString();
-                    p1.Fechaproporcionada = Convert.ToDateTime(rdr["FECHAPROPORCIONADA"]);
-                    p1.IdLote = Convert.ToInt32(rdr["IDLOTE"]);
-                    p1.DosisCorrespondiente = Convert.ToInt32(rdr["DOSISCORRESPONDIENTE"]);
-                    p1.NombreVacuna = rdr["NOMBREVACUNA"].ToString();
-                    personas.Add(p1);
+                    personas.Add(new PersonaVacunacion { 
+                    Nombres = rdr["NOMBRES"].ToString(),
+                    Apelllidos = rdr["APELLIDOS"].ToString(),
+                    Identificacion = rdr["IDENTIFICACION"].ToString(),
+                    Fechanacimiento = Convert.ToDateTime(rdr["FECHANACIMIENTO"]),
+                    Profesion = rdr["PROFESION"].ToString(),
+                    NumMesa  = rdr["NUMMESA"].ToString(),
+                    CodigoFase = rdr["CODIGOFASE"].ToString(),
+                    Centro = rdr["CENTRO"].ToString(),
+                    Fechaproporcionada = Convert.ToDateTime(rdr["FECHAPROPORCIONADA"]),
+                    IdLote = Convert.ToInt32(rdr["IDLOTE"]),
+                    DosisCorrespondiente = Convert.ToInt32(rdr["DOSISCORRESPONDIENTE"]),
+                    NombreVacuna = rdr["NOMBREVACUNA"].ToString(),
+                    });     
                 }
             }
             return personas;
@@ -160,23 +160,136 @@ namespace VacunateRD__BD1_Final_.Data
                 GetVacunasDisponiblesPorRegion(),
                 GetVacunasDisponiblesCentral());
         }
-        public List<CentroVacunacion> GetCentrosVacunacion()
+
+        public List<Vacunador> getVacunadoresByCentro(int idCentro)
         {
-            List<CentroVacunacion> centrosVacunacion = new List<CentroVacunacion>();
+            List<Vacunador> vacunadores = new List<Vacunador>();
+            Vacunador v1 = new Vacunador();
+
             using (SqlConnection con = new SqlConnection(s))
             {
-                SqlCommand cmd = new SqlCommand("spSelectAllCentroVacunacion", con);
+
+                SqlCommand cmd = new SqlCommand("spSelectVacunadorByIdCentro", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@idCentro", idCentro);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    centrosVacunacion.Add(new CentroVacunacion(
-                        Convert.ToInt32(rdr["IDCENTROVACUNACION"]),
-                        rdr["NOMBRE"].ToString()));
+                     
+                    vacunadores.Add(new Vacunador { Nombres = rdr["NOMBRES"].ToString(),
+                        Apellidos = rdr["APELLIDOS"].ToString(),
+                        IdVacunador = Convert.ToInt32(rdr["IDVACUNADOR"])
+                    });
                 }
+                con.Close();
             }
-            return centrosVacunacion;
+            return vacunadores;
+        }
+
+        public IEnumerable<Lote> getLotesByCentro(int idCentro)
+        {
+            List<Lote> lotes = new List<Lote>();
+            Lote L1 = new Lote();
+
+            using (SqlConnection con = new SqlConnection(s))
+            {
+
+                SqlCommand cmd = new SqlCommand("GetLoteByIdCentro", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@idCentro", idCentro);
+                con.Open();
+                Lote L2 = new Lote{ Disponibles = 1, idLote= 1, Nombre = "", };
+
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    lotes.Add(new Lote { Disponibles = Convert.ToInt32(rdr["DISPONIBLES"]), 
+                        idLote = Convert.ToInt32(rdr["IDLOTE"]), 
+                        Nombre = rdr["NOMBRE"].ToString(), });
+                }
+                return lotes;
+            }
+        }
+
+        public List<MesaVacunacion> getMesaVacunacionByCentroID(int idCentro)
+        {
+            string query = "select IDMESAVACUNACION from TBL_MESAVACUNACION where IDCENTROVACUNACION = @idCentro";
+            List<MesaVacunacion> Mesas = new List<MesaVacunacion>();
+            MesaVacunacion m1 = new MesaVacunacion();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                CMD.Parameters.AddWithValue("@idCentro", idCentro);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+              
+                    Mesas.Add(new MesaVacunacion { idMesaVacunacion = Convert.ToInt32(rdr["IDMESAVACUNACION"])} );
+                }
+                con.Close();
+            }
+            return Mesas;
+        }
+        public void AddVacunacion(Vacunacion V)
+        {
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                //@idPersona int, @idLote int, @idMesaVacunacion int, @Dosis tinyint, @idVacunador int
+                SqlCommand cmd = new SqlCommand("spInsertVacunacion", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idPersona", V.idPersona);
+                cmd.Parameters.AddWithValue("@idLote", V.idLote);
+                cmd.Parameters.AddWithValue("@idMesaVacunacion", V.idMesaVacunacion);
+                cmd.Parameters.AddWithValue("@Dosis", V.Dosis);
+                cmd.Parameters.AddWithValue("@idVacunador", V.idVacuandor);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        public int getPersonaIdByIdentificacion(string identificacion)
+        {
+            string query = "select IDPERSONA FROM TBL_PERSONA WHERE IDENTIFICACION = @IDENTIFICACION";
+            int idPersona = 0;
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                CMD.Parameters.AddWithValue("@IDENTIFICACION", identificacion);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+                    idPersona = Convert.ToInt32(rdr["IDPERSONA"]);
+                    
+                }
+                con.Close();
+            }
+            return idPersona;
+        }
+        public List<CentroVacunacion> getAllCentroVacunacion()
+        {
+            string query = "Select IDCENTROVACUNACION, NOMBRE from TBL_CENTROVACUNACION WHERE IDESTADO = 1";
+
+            List<CentroVacunacion> Centros = new List<CentroVacunacion>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand CMD = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader rdr = CMD.ExecuteReader();
+                while (rdr.Read())
+                {
+
+                    Centros.Add(new CentroVacunacion { idCentroVacunacion = Convert.ToInt32(rdr["IDCENTROVACUNACION"]), 
+                        Nombre = rdr["NOMBRE"].ToString()
+                    });
+                }
+                con.Close();
+            }
+            return Centros;
         }
     }
 }

@@ -3,7 +3,7 @@
 @inject DBServices objDBServices
 @inject NavigationManager NavigationManager
 
-<h1>Agregar persona</h1>
+<h1><strong>Agregar persona</strong></h1>
 
 <hr />
 <form>
@@ -62,10 +62,10 @@
     protected void CreatePersona()
     {
         objDBServices.Create(p);
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("/");
     }
     void Cancel()
     {
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("/");
     }
 }

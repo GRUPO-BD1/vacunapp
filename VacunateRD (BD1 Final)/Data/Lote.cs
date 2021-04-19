@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace VacunateRD__BD1_Final_.Data
 {
-    public class CentroVacunacion
+    public class Lote
     {
-        public int idCentroVacunacion { get; set; }
+        public int idLote { get; set; }
+        public int Disponibles { get; set; }
         public string Nombre { get; set; }
     }
 }
