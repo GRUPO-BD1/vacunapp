@@ -2,7 +2,7 @@
 @using VacunateRD__BD1_Final_.Data
 @inject DBServices objDBServices
 @inject NavigationManager NavigationManager
-
+@inject ToShare ToShare
 
 <h1>Buscar personas vacunadas</h1>
 
@@ -38,24 +38,24 @@ else
         <tbody>
             @foreach (var temp in PersonaHistorial)
             {
-            <tr>
-                <td>@temp.Nombres</td>
-                <td>@temp.Apelllidos</td>
-                <td>@temp.Profesion</td>
-                <td>@temp.Fechanacimiento</td>
-                <td>@temp.CodigoFase</td>
-                <td>@temp.Centro</td>
-                <td>@temp.NumMesa</td>
-                <td>@temp.DosisCorrespondiente</td>
-                <td>@temp.Fechaproporcionada</td>
-                <td>@temp.IdLote</td>
-                <td>@temp.NombreVacuna</td>
-                <td>
-                    <a class="nav-link" href="EditCustomer/">
-                        <span class="oi oi-pencil" aria-hidden="true"></span> Vacunar
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@temp.Nombres</td>
+                    <td>@temp.Apelllidos</td>
+                    <td>@temp.Profesion</td>
+                    <td>@temp.Fechanacimiento</td>
+                    <td>@temp.CodigoFase</td>
+                    <td>@temp.Centro</td>
+                    <td>@temp.NumMesa</td>
+                    <td>@temp.DosisCorrespondiente</td>
+                    <td>@temp.Fechaproporcionada</td>
+                    <td>@temp.IdLote</td>
+                    <td>@temp.NombreVacuna</td>
+                    <td>
+                        <a class="nav-link" href="EditCustomer/">
+                            <span class="oi oi-pencil" aria-hidden="true"></span> Vacunar
+                        </a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -69,6 +69,7 @@ else
     {
         if (identificacion1 != null)
         {
+            Console.WriteLine(ToShare.IdHospital);
             DBServices db = new DBServices();
             PersonaHistorial = db.GetPersonaDataByIdentificacion(identificacion1).ToList();
         }

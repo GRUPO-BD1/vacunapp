@@ -160,5 +160,23 @@ namespace VacunateRD__BD1_Final_.Data
                 GetVacunasDisponiblesPorRegion(),
                 GetVacunasDisponiblesCentral());
         }
+        public List<CentroVacunacion> GetCentrosVacunacion()
+        {
+            List<CentroVacunacion> centrosVacunacion = new List<CentroVacunacion>();
+            using (SqlConnection con = new SqlConnection(s))
+            {
+                SqlCommand cmd = new SqlCommand("spSelectAllCentroVacunacion", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    centrosVacunacion.Add(new CentroVacunacion(
+                        Convert.ToInt32(rdr["IDCENTROVACUNACION"]),
+                        rdr["NOMBRE"].ToString()));
+                }
+            }
+            return centrosVacunacion;
+        }
     }
 }
